@@ -1,0 +1,38 @@
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var findMaxAverage = function(nums, k) {
+    // Initialize variables
+  let max_avg = -Infinity; 
+  let current_sum = 0;
+  let start_index = 0; 
+  // Calculate the sum of the first k elements (initial window)
+  for (let i = 0; i < k; i++) {
+    current_sum += nums[i];
+  }
+
+  
+  max_avg = current_sum / k;
+
+
+  
+  for (let i = k; i < nums.length; i++) {
+    // Remove the leftmost element from the window
+    current_sum -= nums[i - k];
+
+    // Add the new rightmost element to the window
+    current_sum += nums[i];
+
+    let current_avg = current_sum / k;
+
+    if (current_avg > max_avg) {
+      max_avg = current_avg;
+      start_index = i - k + 1; 
+    } 
+  }
+
+  return max_avg; 
+
+};

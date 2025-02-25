@@ -1,0 +1,16 @@
+/**
+ * @param {string} str1
+ * @param {string} str2
+ * @return {string}
+ */var gcdOfStrings = function(str1, str2) {
+    // If concatenating the two strings in different orders produces different results, no GCD string exists
+    if (str1 + str2 !== str2 + str1) return "";
+
+    // Find GCD of the lengths of both strings
+    const gcd = (a, b) => b === 0 ?  a : gcd(b, a % b);
+    
+    let gcdLength = gcd(str1.length, str2.length);
+    
+    // common divisor string should be the prefix of length gcdLength
+    return str1.substring(0, gcdLength);
+};
