@@ -1,0 +1,73 @@
+/* Approach 1. Loop through string and store vowels on array, placeholders in string. Then loop through string again and replace in vowels in reverse order. */
+var reverseVowels = function(s) {
+    var result = '';
+    
+    var string = [];
+    var vowels = [];
+    
+    // Start from front of string to find consonants and vowels.
+    for (var i=0; i<s.length; i++) {
+        var orig = s[i];
+        var char = s[i].toLowerCase();
+
+        if (char === 'a' || char === 'e' || char === 'i' || char === 'o' || char === 'u') {
+            vowels.push(orig);
+            orig = null; // placeholder
+        }
+
+        string.push(orig);
+    }
+
+    // Insert vowels.
+    for (var i=0; i<string.length; i++) {
+        if (!string[i]) {
+            string[i] = vowels.splice(vowels.length - 1, 1)[0];
+        }
+    }
+    
+    result = string.join('');
+    
+    return result;
+}
+
+/* Approach 2. Loop through string and convert to array, storing vowels in 2nd array. Then loop through vowels and swap in two at a time in reverse order. Finally, join array back into string. */
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseVowels = function(s) {
+    var result = '';
+    
+    var string = [];
+    var vowels = { A: 1, a: 1, E: 1, e: 1, I: 1, i: 1, O: 1, o: 1, U: 1, u: 1 };
+    var vowelsToReverse = [];
+    
+    for (var i=0; i<s.length; i++) {
+        if (vowels[s[i]]) {
+            // Store the character and its position (to swap with end of list).
+            vowelsToReverse.push({ char: s[i], pos: i });
+        }
+        
+        // Regardless, just append.
+        string.push(s[i]);
+    }
+    
+    // Insert vowels into position.
+    while (vowelsToReverse.length) {
+        var vowel1 = vowelsToReverse.splice(0, 1)[0];
+        var vowel2 = null;
+        
+        if (vowelsToReverse.length) {
+            vowel2 = vowelsToReverse.splice(vowelsToReverse.length - 1, 1)[0];
+        }
+        
+        if (vowel2) {
+            string[vowel1.pos] = vowel2.char;
+            string[vowel2.pos] = vowel1.char
+        }
+    }
+    
+    result = string.join('');
+    
+    return result;
+};
