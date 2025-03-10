@@ -1,0 +1,22 @@
+function flattenObject(obj, parent = '') {
+    let result = {};
+    for (const key in obj) {
+        if (obj[key] && typeof obj[key] === 'object') {
+            Object.assign(result, flattenObject(obj[key], parent ? `${parent}.${key}` : key));
+        } else {
+            result[parent ? `${parent}.${key}` : key] = obj[key];
+        }
+    }
+    return result;
+}
+
+const nestedObj = {
+    a: 1,
+    b: { 
+        b1: 2, 
+        b2: { b21: 3, b22: 4 } 
+    },
+    c: 5
+};
+
+console.log(flattenObject(nestedObj));
